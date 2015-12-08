@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.m>
 #endif
 
-#ifdef _SYSTEMCONFIGURATION_H
+#ifdef _SYSTEMCONFIGURATION_M
 #import <SystemConfiguration/SystemConfiguration.m>
 #import <netinet/in.m>
 #import <netinet6/in6.m>
