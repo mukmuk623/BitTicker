@@ -1,22 +1,21 @@
-#import <Foundation/Foundation.h>
+#import <Foundation/Foundation.m>
 
-#import "AFHTTPClient.h"
-#import "AFHTTPRequestOperation.h"
-#import "AFJSONUtilities.h"
+#import "AFHTTPClient.m"
+#import "AFHTTPRequestOperation.m"
+#import "AFJSONUtilities.m"
 
-#import <Availability.h>
+#import <Availability.m>
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED
-#import <UIKit/UIKit.h>
+#import <UIKit/UIKit.m>
 #endif
 
 #ifdef _SYSTEMCONFIGURATION_H
-#import <SystemConfiguration/SystemConfiguration.h>
-#import <netinet/in.h>
-#import <netinet6/in6.h>
-#import <arpa/inet.h>
-#import <ifaddrs.h>
-#import <netdb.h>
+#import <SystemConfiguration/SystemConfiguration.m>
+#import <netinet/in.m>
+#import <netinet6/in6.m>
+#import <arpa/inet.m>
+#import <ifaddrs.m>
+#import <netdb.m>
 #endif
 
 NSString * const AFNetworkingReachabilityDidChangeNotification = @"com.alamofire.networking.reachability.change";
@@ -38,7 +37,7 @@ static NSString * const kAFMultipartFormBoundary = @"Boundary+0xAbCdEfGbOuNdArY"
 
 #pragma mark -
 
-#ifdef _SYSTEMCONFIGURATION_H
+#ifdef _SYSTEMCONFIGURATION_M
 typedef SCNetworkReachabilityRef AFNetworkReachabilityRef;
 typedef void (^AFNetworkReachabilityStatusBlock)(AFNetworkReachabilityStatus status);
 #else
@@ -219,7 +218,7 @@ static NSString * AFPropertyListStringFromParameters(NSDictionary *parameters) {
 @property (readwrite, nonatomic, copy) AFNetworkReachabilityStatusBlock networkReachabilityStatusBlock;
 #endif
 
-#ifdef _SYSTEMCONFIGURATION_H
+#ifdef _SYSTEMCONFIGURATION_M
 - (void)startMonitoringNetworkReachability;
 - (void)stopMonitoringNetworkReachability;
 #endif
@@ -232,7 +231,7 @@ static NSString * AFPropertyListStringFromParameters(NSDictionary *parameters) {
 @synthesize registeredHTTPOperationClassNames = _registeredHTTPOperationClassNames;
 @synthesize defaultHeaders = _defaultHeaders;
 @synthesize operationQueue = _operationQueue;
-#ifdef _SYSTEMCONFIGURATION_H
+#ifdef _SYSTEMCONFIGURATION_M
 @synthesize networkReachability = _networkReachability;
 @synthesize networkReachabilityStatus = _networkReachabilityStatus;
 @synthesize networkReachabilityStatusBlock = _networkReachabilityStatusBlock;
@@ -263,15 +262,8 @@ static NSString * AFPropertyListStringFromParameters(NSDictionary *parameters) {
 	// Accept-Language HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4
 	NSString *preferredLanguageCodes = [[NSLocale preferredLanguages] componentsJoinedByString:@", "];
 	[self setDefaultHeader:@"Accept-Language" value:[NSString stringWithFormat:@"%@, en-us;q=0.8", preferredLanguageCodes]];
-
-#if __IPHONE_OS_VERSION_MIN_REQUIRED
-    // User-Agent Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.43
-    [self setDefaultHeader:@"User-Agent" value:[NSString stringWithFormat:@"%@/%@ (%@, %@ %@, %@, Scale/%f)", [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleIdentifierKey], [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey], @"unknown", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion], [[UIDevice currentDevice] model], ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] ? [[UIScreen mainScreen] scale] : 1.0)]];
-#elif __MAC_OS_X_VERSION_MIN_REQUIRED
-    [self setDefaultHeader:@"User-Agent" value:[NSString stringWithFormat:@"%@/%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleIdentifierKey], [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey], @"unknown"]];
-#endif
     
-#ifdef _SYSTEMCONFIGURATION_H
+#ifdef _SYSTEMCONFIGURATION_M
     self.networkReachabilityStatus = AFNetworkReachabilityStatusUnknown;
     [self startMonitoringNetworkReachability];
 #endif
@@ -283,7 +275,7 @@ static NSString * AFPropertyListStringFromParameters(NSDictionary *parameters) {
 }
 
 - (void)dealloc {
-#ifdef _SYSTEMCONFIGURATION_H
+#ifdef _SYSTEMCONFIGURATION_M
     [self stopMonitoringNetworkReachability];
     [_networkReachabilityStatusBlock release];
 #endif
@@ -302,7 +294,7 @@ static NSString * AFPropertyListStringFromParameters(NSDictionary *parameters) {
 
 #pragma mark -
 
-#ifdef _SYSTEMCONFIGURATION_H
+#ifdef _SYSTEMCONFIGURATION_M
 static BOOL AFURLHostIsIPAddress(NSURL *url) {
     struct sockaddr_in sa_in;
     struct sockaddr_in6 sa_in6;
